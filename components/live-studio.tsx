@@ -12,6 +12,8 @@ import { LiveReview, LiveComparison, time } from "./live-review";
 import { AudioCueSettings } from "./audio-cue-settings";
 import type { CueAudioOutput } from "@/lib/live/audio-output";
 import { CUE_CATALOG } from "@/lib/live/cue-catalog";
+import { DEFAULT_BRIDGE_URL, PresageService, type PresageSnapshot } from "@/lib/presage/service";
+import { PresagePanel } from "./presage-panel";
 const empty: Snapshot = {
   state: "idle",
   seconds: 0,
@@ -53,6 +55,11 @@ export function LiveStudio({ controlled = false, countdownTest = false }: { cont
     audioEnabled = useRef(false),
     master = useRef(false);
   const [masterMuted, setMasterMuted] = useState(false);
+  const presage = useRef<PresageService | null>(null),
+    bridgeUrl = useRef(DEFAULT_BRIDGE_URL);
+  const [presageSnap, setPresageSnap] = useState<PresageSnapshot>(PresageService.idle()),
+    [presageStream, setPresageStream] = useState<MediaStream | null>(null),
+    [bridgeStatus, setBridgeStatus] = useState("");
   const active = [
     "permission",
     "connecting",
@@ -66,22 +73,24 @@ export function LiveStudio({ controlled = false, countdownTest = false }: { cont
     const recordingUrls = urls.current;
     fetch("/api/status")
       .then((r) => r.json())
-      .then((d) =>
-        setConfigured(
-          (d as { transcriptionConfigured: boolean }).transcriptionConfigured,
-        ),
-      )
+      .then((d) => {
+        const status = d as { transcriptionConfigured: boolean; presageBridgeUrl?: string };
+        setConfigured(status.transcriptionConfigured);
+        if (status.presageBridgeUrl) bridgeUrl.current = status.presageBridgeUrl;
+        if (!controlled) return probeBridge();
+      })
       .catch(() => setConfigured(null));
     return () => {
       // Invalidate the latest async start, including starts after this effect mounted.
       // eslint-disable-next-line react-hooks/exhaustive-deps
       generation.current++;
       session.current?.cancel();
+      presage.current?.stop();
       recordingUrls.forEach((u) => URL.revokeObjectURL(u));
       clearTimeout(cueTimer.current);
       if (frame.current) cancelAnimationFrame(frame.current);
     };
-  }, []);
+  }, [controlled]);
   useEffect(() => {
     const hide = () => {
       if (document.hidden && session.current) {
@@ -91,6 +100,8 @@ export function LiveStudio({ controlled = false, countdownTest = false }: { cont
         );
         void session.current.stop("page-hidden");
       }
+      if (document.hidden && presage.current && presage.current.snapshot().state !== "off")
+        presage.current.stop("Camera paused because the page left the foreground. Turn it back on when you return.");
     };
     const offline = () => {
       if (session.current) {
@@ -120,6 +131,36 @@ export function LiveStudio({ controlled = false, countdownTest = false }: { cont
     save: mode === "practice" || save,
     continueOnFailure,
   });
+  async function probeBridge() {
+    try {
+      const r = await fetch(PresageService.healthUrl(bridgeUrl.current), { cache: "no-store" });
+      const h = (await r.json()) as { ok: boolean; source: string; error?: string };
+      setBridgeStatus(
+        !h.ok
+          ? `Presage bridge found but not ready: ${h.error}`
+          : h.source === "mock"
+            ? "Bridge is in MOCK mode: values are not measured."
+            : "Presage bridge ready.",
+      );
+    } catch {
+      setBridgeStatus("Presage bridge not detected; run `pnpm presage:bridge` to enable.");
+    }
+  }
+  function togglePresage(value: boolean) {
+    if (!value) {
+      presage.current?.stop();
+      return;
+    }
+    if (!presage.current) {
+      const service = new PresageService(bridgeUrl.current);
+      service.on("change", (s) => {
+        setPresageSnap(s);
+        setPresageStream(service.stream);
+      });
+      presage.current = service;
+    }
+    void presage.current.start();
+  }
   async function start(retry?: Setup) {
     if (active || micBusy) return;
     setError("");
@@ -143,6 +184,7 @@ export function LiveStudio({ controlled = false, countdownTest = false }: { cont
         change: (s) => {
           if (n === generation.current) {
             setSnapshot(s);
+            if (s.state === "idle") presage.current?.setBusy(false);
             if (s.state === "unavailable" || s.state === "idle") {
               setCue(null);
               setTimeCue(null);
@@ -182,6 +224,12 @@ export function LiveStudio({ controlled = false, countdownTest = false }: { cont
             return;
           }
           session.current = null;
+          presage.current?.setBusy(false);
+          // Cut this take's physiology from the camera session on the shared clock.
+          if (r.clockOrigin !== undefined && presage.current) {
+            const physiology = presage.current.attempt(r.clockOrigin, r.duration);
+            if (physiology) r = { ...r, physiology };
+          }
           audioOutput.current?.silence();
           setSnapshot({ ...empty, state: "done" });
           setCue(null);
@@ -203,11 +251,13 @@ export function LiveStudio({ controlled = false, countdownTest = false }: { cont
         },
       });
       session.current = next;
+      presage.current?.setBusy(true);
       next.mute(
         master.current || (!visualRef.current && !audioEnabled.current),
       );
       await next.start();
     } catch (e) {
+      presage.current?.setBusy(false);
       setError(microphoneError(e));
       setSnapshot(empty);
       session.current?.cancel();
@@ -256,6 +306,7 @@ export function LiveStudio({ controlled = false, countdownTest = false }: { cont
     session.current = null;
     urls.current.forEach((u) => URL.revokeObjectURL(u));
     urls.current.clear();
+    presage.current?.clearTakes();
     setResults([]);
     setSelected(0);
     setCompare(false);
@@ -318,6 +369,20 @@ export function LiveStudio({ controlled = false, countdownTest = false }: { cont
                 onChange={setDevice}
                 disabled={active}
                 onBusyChange={setMicBusy}
+              />
+            )}
+            {!controlled && (
+              <PresagePanel
+                snapshot={presageSnap}
+                stream={presageStream}
+                enabled={presageSnap.state !== "off"}
+                capturing={active}
+                bridgeStatus={bridgeStatus}
+                onToggle={togglePresage}
+                onRetry={() => {
+                  void probeBridge();
+                  togglePresage(true);
+                }}
               />
             )}
             {controlled && <p className="notice">Synthetic audio input · your microphone is off. <Link href="/">Use my microphone instead</Link></p>}
@@ -575,6 +640,8 @@ export function LiveStudio({ controlled = false, countdownTest = false }: { cont
                 : "No audio recording is kept by this app. Transcript and cue history are discarded when you stop."}{" "}
               ElevenLabs applies its own retention policy. Other nearby voices
               may be captured. Keep this page visible.
+              {presageSnap.state !== "off" &&
+                " Camera frames go only to the Presage bridge on this computer; the SmartSpectra SDK computes pulse on-device and contacts Presage to authorize the API key (plus aggregate SDK telemetry). No video is saved."}
             </p>
             {capturing && mode === "practice" && (
               <details className="stream-transcript">
@@ -658,8 +725,8 @@ export function LiveStudio({ controlled = false, countdownTest = false }: { cont
         )}
         <footer className="studio-footer">
           <p>
-            English delivery cues · no overall score · camera and wearable
-            inputs planned
+            English delivery cues · no overall score · optional camera
+            physiology via Presage · wearable inputs planned
           </p>
           <a href="/lab">Controlled stream test</a>
           {controlled && <Link href="/lab/countdown">Test speech cues during the final countdown</Link>}

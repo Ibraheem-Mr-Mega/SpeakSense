@@ -1,4 +1,5 @@
 import type { Word } from "../speech/types.ts";
+import type { AttemptPhysiology } from "../presage/types.ts";
 export type Mode = "practice" | "presentation";
 export type Setup = {
   mode: Mode;
@@ -60,6 +61,10 @@ export type SessionResult = {
   complete: boolean;
   microphone: string;
   source: "microphone" | "controlled";
+  /** Speech time zero on the page's performance clock (seconds); word times are relative to it. */
+  clockOrigin?: number;
+  /** Optional camera physiology (Presage), on the same timeline as the words. */
+  physiology?: AttemptPhysiology;
 };
 export type SessionState =
   | "idle"
