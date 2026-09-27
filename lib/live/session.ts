@@ -404,6 +404,7 @@ export class LiveSession {
       complete: this.complete,
       microphone: this.source.label,
       source: this.source.kind,
+      clockOrigin: this.started,
     };
     this.segments = [];
     if (!this.setup.save) {

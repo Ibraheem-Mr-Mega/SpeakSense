@@ -2,6 +2,7 @@
 
 # dependencies
 /node_modules
+/presage-bridge/node_modules
 /.pnp
 .pnp.*
 .yarn/*

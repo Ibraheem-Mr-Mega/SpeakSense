@@ -16,6 +16,9 @@
     "typecheck": "tsc --noEmit",
     "test:http": "node scripts/http-smoke.mjs",
     "check:elevenlabs": "node --experimental-transform-types scripts/check-elevenlabs.mjs",
+    "presage:install": "npm --prefix presage-bridge ci --no-audit --no-fund",
+    "presage:bridge": "node presage-bridge/server.mjs",
+    "presage:mock": "node presage-bridge/server.mjs --mock",
     "deploy:prepare": "pnpm build && node scripts/prepare-deployment.mjs",
     "deploy:dry-run": "wrangler deploy --config dist/server/wrangler.json --dry-run --outdir artifacts/worker",
     "deploy": "wrangler deploy --config dist/server/wrangler.json"

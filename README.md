@@ -18,13 +18,25 @@ Open http://localhost:5173. Add `ELEVENLABS_API_KEY` to ignored `.dev.vars` if n
 - `/lab/countdown`: 45-second synthetic stream with a repeated filler cluster during the final countdown; used to check that speech coaching continues after time reminders.
 - `/review-demo`: preserved earlier after-speech recording and labeled sample review. This is not evidence of live processing.
 
-Default duration: 60 seconds. Configurable range: 30–600 seconds. Two-hour sessions, camera, wearable pin and sensor integrations remain planned.
+Default duration: 60 seconds. Configurable range: 30–600 seconds. Two-hour sessions, wearable pin and other sensor integrations remain planned.
+
+## Optional camera physiology (Presage SmartSpectra)
+
+Turn on **Camera context** to add measured pulse to the review, compared with your own pre-speech baseline and placed on the same timeline as your words: "0:34 — your pace rose to 161 WPM; pulse averaged 88 BPM here, 9 above your baseline". The native SmartSpectra SDK runs in a small local bridge, not in the browser or worker:
+
+```sh
+pnpm presage:install      # once
+pnpm presage:bridge       # alongside pnpm dev; needs SMARTSPECTRA_API_KEY in .dev.vars
+pnpm presage:mock         # UI development only: deterministic values labelled "Mock data · not measured"
+```
+
+Pulse only: breathing is not used because Presage does not measure it while you talk. Readings below confidence 50, unstable readings, or readings taken while the camera signal was poor are excluded and shown as gaps. These are wellness metrics, not medical ones. SpeakSense reports co-occurrence and never infers stress, anxiety or emotion. Speech coaching works unchanged when the camera or bridge is unavailable. Details: [SPEAKSENSE_CONTEXT.md](SPEAKSENSE_CONTEXT.md).
 
 Supportive cues include Breathe, Take a beat, Slow down a little, Speed up a little and Speak up a little. Breathing can be requested; automatic cues require observable evidence. They do not diagnose anxiety or claim to treat panic. Input adapters feed a shared session/cue engine; `lib/live/cue-catalog.ts` supplies shared copy, tones, and prerecorded voice phrases for both modes. Audio is off until you select an output, play a test, confirm where you heard it, and enable cues. Time reminders at 20 and 10 seconds remaining have a separate visual area and do not consume the six-second speech cooldown; sessions of at least two minutes also get a one-minute reminder.
 
 **[Voice setup and read-aloud test](docs/VOICE-CUE-TEST.md)** · **[Complete handoff and exact browser steps](docs/LIVE-HANDOFF.md)** · **[Current verification record](docs/LIVE-VERIFICATION.md)** · [Deployment](docs/DEPLOYMENT.md) · [Roadmap](docs/ROADMAP.md) · [Customer research](docs/SPEAKSENSE_CUSTOMER_AVATAR_RESEARCH.md)
 
-Live speech and time cues have been observed in both modes with controlled streaming audio. Tests cover cue gating, streaming lifecycle, transcript validation/correction and audio-output safeguards. Actual microphones, natural-speech accuracy across accents, physical phone browsers and private earbud audibility need device testing. The app does not claim physiological, emotional, persuasion or funding outcomes.
+Live speech and time cues have been observed in both modes with controlled streaming audio. Tests cover cue gating, streaming lifecycle, transcript validation/correction and audio-output safeguards. Actual microphones, natural-speech accuracy across accents, physical phone browsers and private earbud audibility need device testing. Apart from the optional, labelled Presage pulse context, the app does not claim physiological outcomes, and it makes no emotional, persuasion or funding claims.
 
 ## Checks
 

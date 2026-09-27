@@ -2,6 +2,7 @@
 import { useRef, useState } from "react";
 import type { SessionResult } from "@/lib/live/types";
 import { correctedSegment, segmentMetrics } from "@/lib/live/protocol";
+import { PhysiologyComparison, PhysiologyReview } from "./presage-review";
 export const time = (seconds: number) =>
   `${Math.floor(seconds / 60)}:${String(Math.floor(seconds % 60)).padStart(2, "0")}`;
 export function LiveReview({
@@ -109,6 +110,7 @@ export function LiveReview({
         automatically a filler. Recognition can miss words.{" "}
         {metric.corrected ? "Counts include your corrections." : ""}
       </p>
+      {result.physiology && <PhysiologyReview result={result} onPlay={play} />}
       <div className="review-columns">
         <div>
           <h3>Cue timeline</h3>
@@ -384,6 +386,9 @@ export function LiveComparison({
         {Math.round(b.wpm - a.wpm)} words/min. Faster or fewer fillers does not
         establish a better pitch. Listen to both and judge the takeaway.
       </p>
+      {(first.physiology || second.physiology) && (
+        <PhysiologyComparison first={first} second={second} />
+      )}
     </section>
   );
 }
