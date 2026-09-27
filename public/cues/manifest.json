@@ -1,0 +1,17 @@
+{
+  "voice": "River",
+  "voiceId": "SAz9YHcvj6GT2YYXdXww",
+  "model": "eleven_flash_v2_5",
+  "speed": 0.9,
+  "phrases": {
+    "breathe": "Take a breath.",
+    "fillers": "Take a beat.",
+    "pace": "Slow down a little.",
+    "pace-up": "Pick up the pace a little.",
+    "volume": "Speak up a little.",
+    "time-60": "One minute left.",
+    "time-20": "Twenty seconds left.",
+    "time-10": "Ten seconds left."
+  },
+  "generated": "2026-09-27T05:44:18.798Z"
+}

@@ -1,0 +1,411 @@
+{
+  "id": "sample-1",
+  "kind": "sample",
+  "exercise": "investor",
+  "audience": "Seed investors \u00b7 earn a follow-up meeting",
+  "duration": 35.44698412698413,
+  "audioUrl": "/samples/attempt-1.wav",
+  "transcript": {
+    "text": "Um, we help small teams find the decisions buried in their meetings. Our product turns meeting notes into a shared decision log. Uh, people can see what was decided and who owns the next step. Um, we are testing it with five teams this month. We want to learn whether it saves time before we grow. So, uh, that is what we are building. Thank you.",
+    "words": [
+      {
+        "text": "Um,",
+        "start": 0.44998,
+        "end": 0.71252,
+        "type": "word"
+      },
+      {
+        "text": "we",
+        "start": 0.83252,
+        "end": 1.1132,
+        "type": "word"
+      },
+      {
+        "text": "help",
+        "start": 1.2332,
+        "end": 1.50839,
+        "type": "word"
+      },
+      {
+        "text": "small",
+        "start": 1.62839,
+        "end": 2.00676,
+        "type": "word"
+      },
+      {
+        "text": "teams",
+        "start": 2.12676,
+        "end": 2.55864,
+        "type": "word"
+      },
+      {
+        "text": "find",
+        "start": 2.67864,
+        "end": 3.0805,
+        "type": "word"
+      },
+      {
+        "text": "the",
+        "start": 3.2005,
+        "end": 3.50113,
+        "type": "word"
+      },
+      {
+        "text": "decisions",
+        "start": 3.62113,
+        "end": 4.16308,
+        "type": "word"
+      },
+      {
+        "text": "buried",
+        "start": 4.28308,
+        "end": 4.65946,
+        "type": "word"
+      },
+      {
+        "text": "in",
+        "start": 4.77946,
+        "end": 5.039,
+        "type": "word"
+      },
+      {
+        "text": "their",
+        "start": 5.159,
+        "end": 5.41728,
+        "type": "word"
+      },
+      {
+        "text": "meetings.",
+        "start": 5.53728,
+        "end": 5.97315,
+        "type": "word"
+      },
+      {
+        "text": "Our",
+        "start": 6.62313,
+        "end": 6.88095,
+        "type": "word"
+      },
+      {
+        "text": "product",
+        "start": 7.00095,
+        "end": 7.41542,
+        "type": "word"
+      },
+      {
+        "text": "turns",
+        "start": 7.53542,
+        "end": 7.93356,
+        "type": "word"
+      },
+      {
+        "text": "meeting",
+        "start": 8.05356,
+        "end": 8.40921,
+        "type": "word"
+      },
+      {
+        "text": "notes",
+        "start": 8.52921,
+        "end": 8.92839,
+        "type": "word"
+      },
+      {
+        "text": "into",
+        "start": 9.04839,
+        "end": 9.40707,
+        "type": "word"
+      },
+      {
+        "text": "a",
+        "start": 9.52707,
+        "end": 9.78735,
+        "type": "word"
+      },
+      {
+        "text": "shared",
+        "start": 9.90735,
+        "end": 10.27583,
+        "type": "word"
+      },
+      {
+        "text": "decision",
+        "start": 10.39583,
+        "end": 10.86322,
+        "type": "word"
+      },
+      {
+        "text": "log.",
+        "start": 10.98322,
+        "end": 11.27161,
+        "type": "word"
+      },
+      {
+        "text": "Uh,",
+        "start": 11.92159,
+        "end": 12.20104,
+        "type": "word"
+      },
+      {
+        "text": "people",
+        "start": 13.35102,
+        "end": 13.7078,
+        "type": "word"
+      },
+      {
+        "text": "can",
+        "start": 13.8278,
+        "end": 14.16993,
+        "type": "word"
+      },
+      {
+        "text": "see",
+        "start": 14.28993,
+        "end": 14.60222,
+        "type": "word"
+      },
+      {
+        "text": "what",
+        "start": 14.72222,
+        "end": 15.03102,
+        "type": "word"
+      },
+      {
+        "text": "was",
+        "start": 15.15102,
+        "end": 15.5195,
+        "type": "word"
+      },
+      {
+        "text": "decided",
+        "start": 15.6395,
+        "end": 16.12603,
+        "type": "word"
+      },
+      {
+        "text": "and",
+        "start": 16.24603,
+        "end": 16.54281,
+        "type": "word"
+      },
+      {
+        "text": "who",
+        "start": 16.66281,
+        "end": 16.95061,
+        "type": "word"
+      },
+      {
+        "text": "owns",
+        "start": 17.07061,
+        "end": 17.43515,
+        "type": "word"
+      },
+      {
+        "text": "the",
+        "start": 17.55515,
+        "end": 17.85578,
+        "type": "word"
+      },
+      {
+        "text": "next",
+        "start": 17.97578,
+        "end": 18.42322,
+        "type": "word"
+      },
+      {
+        "text": "step.",
+        "start": 18.54322,
+        "end": 18.88535,
+        "type": "word"
+      },
+      {
+        "text": "Um,",
+        "start": 19.53533,
+        "end": 19.79787,
+        "type": "word"
+      },
+      {
+        "text": "we",
+        "start": 19.91787,
+        "end": 20.19855,
+        "type": "word"
+      },
+      {
+        "text": "are",
+        "start": 20.31855,
+        "end": 20.57637,
+        "type": "word"
+      },
+      {
+        "text": "testing",
+        "start": 20.69637,
+        "end": 21.13478,
+        "type": "word"
+      },
+      {
+        "text": "it",
+        "start": 21.25478,
+        "end": 21.44009,
+        "type": "word"
+      },
+      {
+        "text": "with",
+        "start": 21.56009,
+        "end": 21.80136,
+        "type": "word"
+      },
+      {
+        "text": "five",
+        "start": 21.92136,
+        "end": 22.2522,
+        "type": "word"
+      },
+      {
+        "text": "teams",
+        "start": 22.3722,
+        "end": 22.80408,
+        "type": "word"
+      },
+      {
+        "text": "this",
+        "start": 22.92408,
+        "end": 23.21111,
+        "type": "word"
+      },
+      {
+        "text": "month.",
+        "start": 23.33111,
+        "end": 23.71143,
+        "type": "word"
+      },
+      {
+        "text": "We",
+        "start": 24.36141,
+        "end": 24.64209,
+        "type": "word"
+      },
+      {
+        "text": "want",
+        "start": 24.76209,
+        "end": 25.1034,
+        "type": "word"
+      },
+      {
+        "text": "to",
+        "start": 25.2234,
+        "end": 25.5107,
+        "type": "word"
+      },
+      {
+        "text": "learn",
+        "start": 25.6307,
+        "end": 25.94925,
+        "type": "word"
+      },
+      {
+        "text": "whether",
+        "start": 26.06925,
+        "end": 26.40027,
+        "type": "word"
+      },
+      {
+        "text": "it",
+        "start": 26.52027,
+        "end": 26.70558,
+        "type": "word"
+      },
+      {
+        "text": "saves",
+        "start": 26.82558,
+        "end": 27.28091,
+        "type": "word"
+      },
+      {
+        "text": "time",
+        "start": 27.40091,
+        "end": 27.77932,
+        "type": "word"
+      },
+      {
+        "text": "before",
+        "start": 27.89932,
+        "end": 28.28712,
+        "type": "word"
+      },
+      {
+        "text": "we",
+        "start": 28.40712,
+        "end": 28.6878,
+        "type": "word"
+      },
+      {
+        "text": "grow.",
+        "start": 28.8078,
+        "end": 29.17184,
+        "type": "word"
+      },
+      {
+        "text": "So,",
+        "start": 29.82181,
+        "end": 30.19048,
+        "type": "word"
+      },
+      {
+        "text": "uh,",
+        "start": 30.31048,
+        "end": 30.58993,
+        "type": "word"
+      },
+      {
+        "text": "that",
+        "start": 30.70993,
+        "end": 31.00553,
+        "type": "word"
+      },
+      {
+        "text": "is",
+        "start": 31.12553,
+        "end": 31.40603,
+        "type": "word"
+      },
+      {
+        "text": "what",
+        "start": 31.52603,
+        "end": 31.83483,
+        "type": "word"
+      },
+      {
+        "text": "we",
+        "start": 31.95483,
+        "end": 32.23551,
+        "type": "word"
+      },
+      {
+        "text": "are",
+        "start": 32.35551,
+        "end": 32.61333,
+        "type": "word"
+      },
+      {
+        "text": "building.",
+        "start": 32.73333,
+        "end": 33.1044,
+        "type": "word"
+      },
+      {
+        "text": "Thank",
+        "start": 33.75438,
+        "end": 34.1293,
+        "type": "word"
+      },
+      {
+        "text": "you.",
+        "start": 34.2493,
+        "end": 34.49701,
+        "type": "word"
+      }
+    ],
+    "language_code": "en"
+  },
+  "provenance": "Synthetic macOS Samantha speech; each word individually rendered and assembled. Timestamps are assembly offsets. Not ElevenLabs output or a human performance."
+}
