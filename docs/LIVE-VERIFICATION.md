@@ -2,6 +2,10 @@
 
 Tests used localhost and the saved server-side ElevenLabs key. A labeled synthetic audio fixture was clocked through the browser AudioWorklet in real time. Actual Scribe Realtime responses drove cues; no batch transcript or prerecorded cue animation was substituted.
 
+## Camera integration follow-up
+
+The optional camera frontend and local native service are implemented. Real SDK activation remains blocked by the Intel macOS host. See [camera setup, verification and limits](PRESAGE-CAMERA.md). Earlier no-camera statements below describe earlier milestones.
+
 ## Voice/countdown completion pass — September 27, 2026
 
 - **57 automated tests pass**, including new session-level checks that both Practice and Live presentation dispatch speech guidance after the 20-second reminder and continue streaming.

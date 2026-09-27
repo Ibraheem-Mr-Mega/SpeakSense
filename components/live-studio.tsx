@@ -11,6 +11,7 @@ import type { Cue, Mode, SessionResult, Setup } from "@/lib/live/types";
 import { LiveReview, LiveComparison, time } from "./live-review";
 import { AudioCueSettings } from "./audio-cue-settings";
 import type { CueAudioOutput } from "@/lib/live/audio-output";
+import { CameraCheck } from "./camera-check";
 import { CUE_CATALOG } from "@/lib/live/cue-catalog";
 const empty: Snapshot = {
   state: "idle",
@@ -656,10 +657,10 @@ export function LiveStudio({ controlled = false, countdownTest = false }: { cont
             )}
           </>
         )}
+        {!controlled && <CameraCheck speaking={active} />}
         <footer className="studio-footer">
           <p>
-            English delivery cues · no overall score · camera and wearable
-            inputs planned
+            English delivery cues · optional quiet camera check · wearable inputs planned
           </p>
           <a href="/lab">Controlled stream test</a>
           {controlled && <Link href="/lab/countdown">Test speech cues during the final countdown</Link>}

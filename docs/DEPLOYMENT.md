@@ -54,7 +54,7 @@ Paste the secret in Wrangler's prompt, never in source or chat. Set the optional
 - `/api/status` should now show only `transcriptionConfigured: true` and `model: scribe_v2`; no secret. This is configuration evidence, not entitlement evidence.
 - Follow [LIVE-HANDOFF.md](LIVE-HANDOFF.md) for both speaking modes, live cues, stop/mute and review. Repeat on a physical phone. [BROWSER-TESTING.md](BROWSER-TESTING.md) remains the older `/review-demo` checklist.
 - Inspect a failed unauthorized request and confirm Access protects `/api/realtime-token` and `/api/transcribe` as well as `/`.
-- Check `Cache-Control: no-store` on API results and the response headers for microphone/self, camera disabled, and no-referrer. No recorded audio should be placed in static assets, R2, D1, or logs by SpeakSense.
+- Check `Cache-Control: no-store` on API results and the response headers for microphone/self, camera scoped to self and requested only by the optional Preview camera action, and no-referrer. No recorded audio should be placed in static assets, R2, D1, or logs by SpeakSense.
 - Verify sample full-file loading and local blob seek playback (the production asset service may return HTTP 200 rather than byte ranges). Test both short and full 60-second attempts.
 
 ## Hosting boundaries

@@ -1,6 +1,6 @@
 import type { NextConfig } from "next";
 const privacyHeaders = [
-  { key: "Permissions-Policy", value: "microphone=(self), camera=(), geolocation=()" },
+  { key: "Permissions-Policy", value: "microphone=(self), camera=(self), geolocation=()" },
   { key: "X-Content-Type-Options", value: "nosniff" },
   { key: "Referrer-Policy", value: "no-referrer" },
   { key: "X-Frame-Options", value: "DENY" },

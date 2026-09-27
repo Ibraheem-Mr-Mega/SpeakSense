@@ -18,11 +18,11 @@ Open http://localhost:5173. Add `ELEVENLABS_API_KEY` to ignored `.dev.vars` if n
 - `/lab/countdown`: 45-second synthetic stream with a repeated filler cluster during the final countdown; used to check that speech coaching continues after time reminders.
 - `/review-demo`: preserved earlier after-speech recording and labeled sample review. This is not evidence of live processing.
 
-Default duration: 60 seconds. Configurable range: 30–600 seconds. Two-hour sessions, camera, wearable pin and sensor integrations remain planned.
+Default duration: 60 seconds. Configurable range: 30–600 seconds. An optional camera preview and native Presage quiet-check integration are implemented; real measurements require a supported host and remain unverified on the Intel development Mac. Two-hour sessions, wearable pin and sensor integrations remain planned.
 
 Supportive cues include Breathe, Take a beat, Slow down a little, Speed up a little and Speak up a little. Breathing can be requested; automatic cues require observable evidence. They do not diagnose anxiety or claim to treat panic. Input adapters feed a shared session/cue engine; `lib/live/cue-catalog.ts` supplies shared copy, tones, and prerecorded voice phrases for both modes. Audio is off until you select an output, play a test, confirm where you heard it, and enable cues. Time reminders at 20 and 10 seconds remaining have a separate visual area and do not consume the six-second speech cooldown; sessions of at least two minutes also get a one-minute reminder.
 
-**[Voice setup and read-aloud test](docs/VOICE-CUE-TEST.md)** · **[Complete handoff and exact browser steps](docs/LIVE-HANDOFF.md)** · **[Current verification record](docs/LIVE-VERIFICATION.md)** · [Deployment](docs/DEPLOYMENT.md) · [Roadmap](docs/ROADMAP.md) · [Customer research](docs/SPEAKSENSE_CUSTOMER_AVATAR_RESEARCH.md)
+**[Presage camera setup and activation limits](docs/PRESAGE-CAMERA.md)** · **[Voice setup and read-aloud test](docs/VOICE-CUE-TEST.md)** · **[Complete handoff and exact browser steps](docs/LIVE-HANDOFF.md)** · **[Current verification record](docs/LIVE-VERIFICATION.md)** · [Deployment](docs/DEPLOYMENT.md) · [Roadmap](docs/ROADMAP.md) · [Customer research](docs/SPEAKSENSE_CUSTOMER_AVATAR_RESEARCH.md)
 
 Live speech and time cues have been observed in both modes with controlled streaming audio. Tests cover cue gating, streaming lifecycle, transcript validation/correction and audio-output safeguards. Actual microphones, natural-speech accuracy across accents, physical phone browsers and private earbud audibility need device testing. The app does not claim physiological, emotional, persuasion or funding outcomes.
 

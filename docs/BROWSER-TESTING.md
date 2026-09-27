@@ -44,7 +44,7 @@ Status: **not executed in the browser in this session**. Codex's browser tool re
 - Keyboard only: Tab reaches the skip link, exercises, goal, recording controls, player, evidence buttons, tabs, and clear. Arrow keys change the radio group and tabs. Focus is visible; Enter/Space activate buttons.
 - With VoiceOver/NVDA: check labels, permission/error announcements, phase changes, audio controls, and transcript buttons. Countdown should not chatter every tenth second (`role=timer` is not a live region).
 - Use reduced-motion preference. The app must remain fully usable with animations disabled.
-- Verify headers on the HTTPS origin, microphone permission scoped to self, and camera disabled. Protect the API with Cloudflare Access before adding a real transcription secret.
+- Verify headers on the HTTPS origin, microphone permission scoped to self, and camera scoped to self and requested only by the optional Preview camera action. Protect the API with Cloudflare Access before adding a real transcription secret.
 
 Record browser/OS versions, device, date, observed MIME type, pass/fail, and any ASR errors. These are acceptance steps, not claims of completed QA.
 

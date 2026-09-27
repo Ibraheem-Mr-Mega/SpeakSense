@@ -90,7 +90,7 @@ Latency is measured from the provider timestamp of the last triggering word to t
 - Required message points are a review checklist. Automatic content-absence cues are suppressed; deeper message reasoning and Meta drafting remain planned.
 - Foreground use is required. Physical microphones, actual iPhone/Android browsers, system interruptions and earbud routing require device checks. Phone-sized desktop viewports are layout tests, not mobile-device certification.
 - Two-hour sessions need durable/chunked storage, resumable processing, stream rollover and interruption testing. The current 10-minute input maximum is a bounded prototype; a full 10-minute physical-device run has not been certified.
-- Camera/Presage, live-streaming wearable pin and connected biometrics are later stages. No camera or sensor is accessed.
+- Camera preview and a separate native Presage quiet-check integration are now available as an optional flow before/after a pitch. Real Presage activation requires a supported host; it is unavailable on the Intel development Mac. See `PRESAGE-CAMERA.md`. Wearable pin and connected sensor work remain planned.
 
 ## HTTPS demo preparation
 

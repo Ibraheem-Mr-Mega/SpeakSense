@@ -18,7 +18,10 @@
     "check:elevenlabs": "node --experimental-transform-types scripts/check-elevenlabs.mjs",
     "deploy:prepare": "pnpm build && node scripts/prepare-deployment.mjs",
     "deploy:dry-run": "wrangler deploy --config dist/server/wrangler.json --dry-run --outdir artifacts/worker",
-    "deploy": "wrangler deploy --config dist/server/wrangler.json"
+    "deploy": "wrangler deploy --config dist/server/wrangler.json",
+    "camera:service": "node native/presage/server.mjs",
+    "camera:check": "node native/presage/server.mjs --check",
+    "test:camera": "node --experimental-transform-types --test native/presage/service.test.mjs tests/camera-metrics.test.ts"
   },
   "dependencies": {
     "@base-ui/react": "^1.7.0",

@@ -49,3 +49,6 @@ next-env.d.ts
 .dev.vars*
 *.tsbuildinfo
 /artifacts/
+
+# Optional native camera service dependencies
+/native/presage/node_modules/

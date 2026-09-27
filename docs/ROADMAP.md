@@ -5,7 +5,7 @@ The latest product direction is **useful cues while speaking in both Practice an
 1. **Live microphone:** implemented streaming input, sparse on-screen cues, mute/stop, correction, review, retry and comparison. Controlled live browser testing is the current evidence boundary; physical-device testing remains.
 2. **Earbud prompts before camera:** optional named-output tone channel implemented behind an output test and user confirmation. Physical private routing and distraction remain unverified; no claim of universally private audio.
 3. **Extended audio:** 30–600-second setup now available. Full two-hour sessions still require durable recording, recovery, provider-session rollover and extended device testing.
-4. **Camera / Presage, then live-streaming pin, then optional sensors:** planned only. The detailed feasibility notes below remain reference material.
+4. **Camera / Presage:** optional browser preview and a native quiet-check adapter are implemented; activation on supported hardware remains pending. See `PRESAGE-CAMERA.md`. Live-streaming pin and optional sensors remain planned. The notes below are historical reference material.
 
 ---
 

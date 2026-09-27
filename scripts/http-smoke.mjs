@@ -3,7 +3,7 @@ import { readFile } from "node:fs/promises";
 const origin = process.argv[2] || "http://localhost:5173";
 const home = await fetch(origin);
 assert.equal(home.status, 200);
-assert.equal(home.headers.get("permissions-policy"), "microphone=(self), camera=(), geolocation=()");
+assert.equal(home.headers.get("permissions-policy"), "microphone=(self), camera=(self), geolocation=()");
 assert.equal(home.headers.get("x-content-type-options"), "nosniff");
 assert.match(await home.text(), /Keep your message moving/);
 assert.equal((await fetch(origin + "/lab")).status, 200);
