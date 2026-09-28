@@ -4,7 +4,7 @@
 
 The optional camera UI and native SmartSpectra adapter are implemented. The API key is configured only in ignored local `.dev.vars`. **Real measurement is not activated or verified on the development computer:** it is an Intel Mac (`darwin-x64`), which SmartSpectra Node SDK 3.3.0 does not support. Saving a key does not prove authentication, account entitlement, available credits, camera access, or valid measurements.
 
-The main web app exposes a local camera preview and a 45-second quiet-check flow. It never requests the camera on page load. A separate native service must run on the same supported computer to produce Presage readings. The Cloudflare Worker cannot load the native SDK. An ordinary browser alone cannot produce Presage results.
+The main web app exposes a local camera preview and a 45-second quiet-check flow. It never requests the camera on page load. A separate native service must run on a supported computer or hosted Linux service to produce Presage readings. The hosted transport and DigitalOcean deployment configuration are prepared; no cloud service is active yet. See [HOSTED-CAMERA.md](HOSTED-CAMERA.md). The Cloudflare Worker cannot load the native SDK. An ordinary browser alone cannot produce Presage results.
 
 ## Run on a supported computer
 
@@ -27,12 +27,12 @@ Supported SDK targets: Apple Silicon macOS, Linux x64/ARM64 with glibc 2.35+, an
 7. Remain still and quiet, with one centered face and upper chest in even light. Use a stationary camera. Pulse needs at least 12 consecutive good seconds; breathing needs 30. The 45-second check allows time for initialization, but poor signal may mean no result.
 8. Verify actual readings on supported hardware before describing this integration as activated. Empty metrics may indicate missing subscription access. `camera:check` checks configuration and SDK loading; only a successful measurement session checks Presage authentication and metrics access.
 
-Do not point a public hosted web app at this service: only the two local development origins are allowed. A production desktop or authenticated server integration requires separate deployment work. There is no public camera upload endpoint.
+Local mode allows only the two local development origins. Hosted mode uses a separate access code, exact allowed origins, HTTPS/WebSockets, and one instance with one active measurement. Follow [HOSTED-CAMERA.md](HOSTED-CAMERA.md) before hosting; the configuration defaults do not permit arbitrary public origins.
 
 ## Data and lifecycle
 
 - The browser requests video only, without microphone access. Capture requests 640×480 at 30 fps; accepted dimensions are bounded to 320×240–1280×720.
-- Preview remains in the browser. Opting into measurement sends raw frames to a service bound to `127.0.0.1:8789` on the same machine. The native SDK computes metrics there and contacts Presage for authentication/account validation. No cloud video upload or LLM insight request is implemented.
+- Preview remains in the browser. Opting into measurement sends raw frames to a service bound to `127.0.0.1:8789` on the same machine. The native SDK computes metrics there and contacts Presage for authentication/account validation. In hosted mode, live frames are instead transmitted over an encrypted WebSocket to the configured Linux server. No LLM insight request is implemented.
 - SDK telemetry and accumulated output are disabled. Frame buffers and readings are transient; the service does not write them to disk or log them. The UI clears values at Stop/completion and does not include camera data in saved pitch reviews.
 - Each measurement has a random session token. The service requires an exact allowed Origin and session token, rejects oversized frames, permits one active measurement, and waits for native teardown before reuse. The provider key never appears in browser responses.
 - Stop, tab hiding, navigation/unmount, camera disconnection, network failure, a pitch starting, or the 45-second limit closes capture. The service also tears down a session after three seconds without accepted frames. A delayed permission grant is stopped if its initiating operation was cancelled.

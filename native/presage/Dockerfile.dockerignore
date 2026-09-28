@@ -1,0 +1,13 @@
+# Allow only native runtime sources into the hosted build context.
+**
+!native
+!native/presage
+!native/presage/Dockerfile
+!native/presage/package.json
+!native/presage/pnpm-lock.yaml
+!native/presage/pnpm-workspace.yaml
+!native/presage/server.mjs
+!native/presage/service.mjs
+!lib
+!lib/camera
+!lib/camera/metrics.ts

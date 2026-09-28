@@ -1614,3 +1614,10 @@ footer details p {
 .camera-readings strong { display: block; font-size: 36px; font-variant-numeric: tabular-nums; }
 .camera-readings p, .camera-readings small, .camera-readings span { font-size: 13px; color: var(--muted-foreground); }
 @media (max-width: 760px) { .camera-layout { grid-template-columns: 1fr; } .camera-check { padding: 16px; } }
+
+.camera-connection { margin-bottom: 1rem; }
+.camera-connection summary { cursor: pointer; }
+.camera-connection fieldset { border: 0; padding: 1rem 0 0; margin: 0; display: grid; gap: .75rem; min-width: 0; }
+.camera-connection label { display: grid; gap: .35rem; }
+.camera-connection label:has(input[type="checkbox"]) { display: flex; align-items: center; gap: .5rem; }
+.camera-connection input[type="url"], .camera-connection input[type="password"] { width: 100%; min-width: 0; border: 1px solid currentColor; border-radius: .5rem; padding: .6rem; background: transparent; color: inherit; }

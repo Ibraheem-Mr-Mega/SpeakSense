@@ -1,0 +1,50 @@
+# Import this specification after confirming MLH credit in your account.
+# Set both SECRET values in the DigitalOcean dashboard before deployment.
+name: speaksense-camera
+region: nyc
+services:
+  - name: camera
+    github:
+      repo: Ibraheem-Mr-Mega/SpeakSense
+      branch: main
+      deploy_on_push: false
+    source_dir: /
+    dockerfile_path: native/presage/Dockerfile
+    http_port: 8789
+    instance_count: 1
+    instance_size_slug: apps-d-1vcpu-2gb
+    health_check:
+      http_path: /readyz
+      initial_delay_seconds: 30
+      period_seconds: 10
+      timeout_seconds: 5
+      failure_threshold: 6
+      success_threshold: 1
+    envs:
+      - key: CAMERA_HOSTED
+        scope: RUN_TIME
+        value: "true"
+      - key: CAMERA_ALLOWED_ORIGINS
+        scope: RUN_TIME
+        value: "http://localhost:5173,http://127.0.0.1:5173"
+      - key: CAMERA_MAX_SESSIONS_PER_HOUR
+        scope: RUN_TIME
+        value: "20"
+      - key: PRESAGE_API_KEY
+        scope: RUN_TIME
+        type: SECRET
+        value: ""
+      - key: CAMERA_ACCESS_KEY
+        scope: RUN_TIME
+        type: SECRET
+        value: ""
+ingress:
+  rules:
+    - component:
+        name: camera
+      match:
+        path:
+          prefix: /
+alerts:
+  - rule: DEPLOYMENT_FAILED
+  - rule: DOMAIN_FAILED

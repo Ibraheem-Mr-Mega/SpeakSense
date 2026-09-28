@@ -37,3 +37,7 @@ pnpm deploy:dry-run
 ```
 
 The former Stage 1 verification is retained in `docs/VERIFICATION.md`; the latest live milestone supersedes its statements that live coaching is unimplemented. No cloud deployment or hosted key configuration is implied by local checks.
+
+### Hosted camera service for Intel Macs
+
+The DigitalOcean Linux service configuration and secure browser streaming are prepared. See [Hosted camera setup](docs/HOSTED-CAMERA.md). Deployment, Presage authentication, and live measurement still require activation in a hosting account.
