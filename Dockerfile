@@ -1,0 +1,14 @@
+# Default hosted container: the optional Presage camera service.
+# Keep this entrypoint aligned with native/presage/Dockerfile.
+FROM node:24-bookworm-slim
+ENV NODE_ENV=production
+WORKDIR /app/native/presage
+RUN npm install --global pnpm@11.25.0
+COPY native/presage/package.json native/presage/pnpm-lock.yaml native/presage/pnpm-workspace.yaml ./
+RUN pnpm install --prod --frozen-lockfile
+COPY --chown=node:node native/presage/server.mjs native/presage/service.mjs ./
+COPY --chown=node:node lib/camera/metrics.ts /app/lib/camera/metrics.ts
+USER node
+ENV CAMERA_HOSTED=true PORT=8789
+EXPOSE 8789
+CMD ["node", "server.mjs"]
