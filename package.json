@@ -21,7 +21,8 @@
     "deploy": "wrangler deploy --config dist/server/wrangler.json",
     "camera:service": "node native/presage/server.mjs",
     "camera:check": "node native/presage/server.mjs --check",
-    "test:camera": "node --experimental-transform-types --test native/presage/service.test.mjs tests/camera-metrics.test.ts"
+    "test:camera": "node --experimental-transform-types --test native/presage/service.test.mjs tests/camera-metrics.test.ts",
+    "test:camera:hosted": "node --test native/presage/hosted.test.mjs"
   },
   "dependencies": {
     "@base-ui/react": "^1.7.0",

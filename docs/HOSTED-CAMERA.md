@@ -4,7 +4,7 @@
 
 Prepared September 28, 2026. **Not deployed or activated.** The developer Mac uses Intel macOS, which cannot load Presage's native SDK. The browser can capture video on that Mac and supply frames to this separate Linux service. The existing main SpeakSense app continues running on the Mac; hosting the whole app is a separate deployment.
 
-No DigitalOcean account or credits have been verified. No cloud resource or billable plan has been created. Actual Linux SDK initialization, account entitlement, sustained streaming and real camera readings remain unverified. The earlier local HTTP/unit test results do not cover the new hosted WebSocket transport; no new tests were added or run for this change.
+No DigitalOcean account or credits have been verified. No cloud resource or billable plan has been created. Actual Linux SDK initialization, account entitlement, sustained streaming and real camera readings remain unverified. Eight hosted-transport checks now pass locally (`pnpm test:camera:hosted`), using the real pinned WebSocket library with a simulated Presage SDK. They cover access controls, session limits, origin/token authentication, lossless frame bytes, capture timing, expiry and cleanup. They do not verify Linux runtime loading, actual Presage entitlement, or a real camera.
 
 ## 1. Claim the MLH offer
 
@@ -78,3 +78,9 @@ Hosting credit is finite. Keep a billing alert, note the actual credit expiry, a
 - [DigitalOcean app spec](https://docs.digitalocean.com/products/app-platform/reference/app-spec/)
 - [DigitalOcean Docker/monorepo deployment](https://docs.digitalocean.com/products/app-platform/how-to/deploy-from-monorepo/)
 - [DigitalOcean's WebSocket example](https://github.com/digitalocean/sample-websocket)
+
+## Short trial cleanup
+
+For an approved brief trial, record the exact app ID and creation time before testing, use one instance, and destroy it immediately afterward or at the two-hour deadline, whichever comes first. If dashboard/API access is unavailable, do not create the service until a reliable deletion path exists.
+
+To delete manually: **DigitalOcean → Apps → speaksense-camera → Settings → Destroy** (bottom of page), enter the exact app name, and confirm. Verify the app disappears from the Apps list. Deleting this cloud app does not delete the GitHub repository or local source. [Official deletion instructions](https://docs.digitalocean.com/products/app-platform/how-to/destroy-app/).
