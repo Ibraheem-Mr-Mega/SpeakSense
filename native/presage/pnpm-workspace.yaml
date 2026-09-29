@@ -2,3 +2,5 @@ packages:
   - .
 allowBuilds:
   koffi: true
+  # Its published postinstall only warns about dependency version ranges.
+  protobufjs: false
