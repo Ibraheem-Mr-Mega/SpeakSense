@@ -1,0 +1,55 @@
+name: Camera Linux container
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - Dockerfile
+      - Dockerfile.dockerignore
+      - native/presage/**
+      - lib/camera/metrics.ts
+      - .github/workflows/camera-linux.yml
+
+permissions:
+  contents: read
+
+concurrency:
+  group: camera-linux-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  container:
+    # Standard runners are free for this public repository. No deployed service.
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          persist-credentials: false
+      - name: Build the camera image
+        run: docker build --progress=plain -t speaksense-camera-check .
+      - name: Load the actual Linux SDK without credentials or network
+        run: |
+          docker run --rm --network none --cpus 1 --memory 2g speaksense-camera-check \
+            node --input-type=module -e 'const sdk = await import("@smartspectra/node-sdk"); if (!(sdk.default ?? sdk).PixelFormat) throw new Error("SDK exports missing"); console.log("Linux SDK import passed; no credential validation or camera measurement performed.");'
+      - name: Check container readiness and access protection
+        run: |
+          set -eu
+          trap 'docker rm -f camera-check >/dev/null 2>&1 || true' EXIT
+          docker run -d --name camera-check --network none --cpus 1 --memory 2g \
+            -e PRESAGE_API_KEY=placeholder-not-a-real-key \
+            -e CAMERA_ACCESS_KEY=00000000000000000000000000000000 \
+            speaksense-camera-check
+          docker exec camera-check node --input-type=module -e '
+            let ready = false;
+            for (let n = 0; n < 30; n++) {
+              try { const response = await fetch("http://127.0.0.1:8789/readyz"); ready = response.ok && (await response.json()).ready === true; } catch {}
+              if (ready) break;
+              await new Promise(resolve => setTimeout(resolve, 1000));
+            }
+            if (!ready) throw new Error("Container readiness failed");
+            const blocked = await fetch("http://127.0.0.1:8789/health");
+            if (blocked.status !== 401 && blocked.status !== 403) throw new Error("Unauthenticated health access was not blocked");
+            console.log("Container readiness and access protection passed.");
+          '
