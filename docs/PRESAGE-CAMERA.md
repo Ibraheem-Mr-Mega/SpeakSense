@@ -4,7 +4,7 @@
 
 The optional camera UI and native SmartSpectra adapter are implemented. The API key is configured only in ignored local `.dev.vars`. **Real measurement is not activated or verified on the development computer:** it is an Intel Mac (`darwin-x64`), which SmartSpectra Node SDK 3.3.0 does not support. Saving a key does not prove authentication, account entitlement, available credits, camera access, or valid measurements.
 
-The main web app exposes a local camera preview and a 45-second quiet-check flow. It never requests the camera on page load. A separate native service must run on a supported computer or hosted Linux service to produce Presage readings. The hosted transport and DigitalOcean deployment configuration are prepared; no cloud service is active yet. See [HOSTED-CAMERA.md](HOSTED-CAMERA.md). The Cloudflare Worker cannot load the native SDK. An ordinary browser alone cannot produce Presage results.
+The main web app exposes a local camera preview and a 45-second quiet-check flow. It never requests the camera on page load. A separate native service must run on a supported computer or hosted Linux service to produce Presage readings. The hosted transport and DigitalOcean deployment configuration are prepared. The failed DigitalOcean trial was deleted September 29; no cloud service is active. Linux CI now verifies image building, actual SDK import, readiness and access protection without real credentials or camera input. See [HOSTED-CAMERA.md](HOSTED-CAMERA.md). The Cloudflare Worker cannot load the native SDK. An ordinary browser alone cannot produce Presage results.
 
 ## Run on a supported computer
 

@@ -2,9 +2,13 @@
 
 ## Status
 
-Prepared September 28, 2026. **Not deployed or activated.** The developer Mac uses Intel macOS, which cannot load Presage's native SDK. The browser can capture video on that Mac and supply frames to this separate Linux service. The existing main SpeakSense app continues running on the Mac; hosting the whole app is a separate deployment.
+Updated September 29, 2026. **No hosted service is active.** The September 28 DigitalOcean trial's first deployment failed; its app was deleted on September 29. The two-hour cleanup deadline was missed during an interrupted assistant session. Do not start another paid trial until deletion can be enforced independently of that session. The developer Mac uses Intel macOS, which cannot load Presage's native SDK. The browser can capture video on that Mac and supply frames to this separate Linux service. The existing main SpeakSense app continues running on the Mac; hosting the whole app is a separate deployment.
 
-No DigitalOcean account or credits have been verified. No cloud resource or billable plan has been created. Actual Linux SDK initialization, account entitlement, sustained streaming and real camera readings remain unverified. Eight hosted-transport checks now pass locally (`pnpm test:camera:hosted`), using the real pinned WebSocket library with a simulated Presage SDK. They cover access controls, session limits, origin/token authentication, lossless frame bytes, capture timing, expiry and cleanup. They do not verify Linux runtime loading, actual Presage entitlement, or a real camera.
+The DigitalOcean billing page showed $0.00 usage and $5.00 remaining credit after deletion; billing updates daily. The advertised $200 MLH promotion was not applied. The user canceled the remaining support-ticket task.
+
+The real Linux container now builds and imports the Presage SDK successfully. [Linux CI run](https://github.com/Ibraheem-Mr-Mega/SpeakSense/actions/runs/36643792456) also passed container readiness and unauthenticated-access checks with networking disabled and placeholder credentials, under a 1 CPU / 2 GB limit. The initial CI build failed because `protobufjs`'s optional version-warning postinstall was not explicitly configured. Its script is now explicitly disabled, while the required Koffi build remains enabled. This diagnoses a reproducible build failure; the deleted DigitalOcean deployment's original logs were not recovered.
+
+Presage key validation, account entitlement, sustained streaming and real camera readings remain unverified. Eight hosted-transport checks pass locally (`pnpm test:camera:hosted`), using the real pinned WebSocket library with a simulated Presage SDK. They cover access controls, session limits, origin/token authentication, lossless frame bytes, capture timing, expiry and cleanup.
 
 ## 1. Claim the MLH offer
 
@@ -16,7 +20,7 @@ The alternative checked was [MLH's Vultr offer](https://www.mlh.com/partners/vul
 
 - Repository: `Ibraheem-Mr-Mega/SpeakSense`, branch `main`.
 - App specification: [`.do/presage.yaml`](../.do/presage.yaml).
-- Build context: repository root `/`. Dockerfile: `native/presage/Dockerfile`.
+- Build context: repository root `/`. The root `Dockerfile` is the camera-service entrypoint for dashboard detection. The app spec's `native/presage/Dockerfile` is equivalent; keep both aligned. Do not choose `native/presage` as the source directory: the image also needs `lib/camera/metrics.ts`.
 - Runtime: Node 24 on Debian Bookworm (glibc 2.36), compatible with the documented Linux glibc 2.35+ requirement. SDK pinned to 3.3.0.
 - Proposed initial size: **one dedicated CPU, 2 GiB RAM** (`apps-d-1vcpu-2gb`), currently **$39/month**, prorated by the second with a one-minute minimum. This is a starting size, not a measured performance guarantee. Review the live price before creating the service. [Current pricing](https://docs.digitalocean.com/products/app-platform/details/pricing/).
 - One instance only, no autoscaling, no database, no persistent disk, no GPU, no automatic deploy on push. Presage subscription/usage is separate from hosting credits.
@@ -68,7 +72,7 @@ Starting measurement sends face/upper-chest frames to your DigitalOcean service.
 
 ## Activation still required
 
-Before calling this live: complete account signup and verify credit; deploy the Linux image; confirm readiness; confirm unauthorized starts fail; confirm Presage accepts the key and returns subscribed metrics; try a physical camera check in Chrome; confirm frame throughput, quiet windows, Stop, tab hiding and speech-start shutdown. These actions have not been performed for the hosted implementation.
+Before calling this live: arrange deletion that survives an assistant interruption; verify current credit; deploy the Linux image; confirm readiness and unauthorized starts on the deployed host; confirm Presage accepts the key and returns subscribed metrics; try a physical camera check in Chrome; confirm frame throughput, quiet windows, Stop, tab hiding and speech-start shutdown. The free CI check verifies the container only, not these live checks.
 
 Hosting credit is finite. Keep a billing alert, note the actual credit expiry, and destroy the service when no longer needed; merely closing the browser does not stop hosting charges.
 
