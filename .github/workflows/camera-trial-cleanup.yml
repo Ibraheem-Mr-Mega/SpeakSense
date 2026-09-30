@@ -1,0 +1,34 @@
+name: Temporary camera cleanup
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  watchdog:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - name: Arm cleanup before creating the trial app
+        env:
+          DIGITALOCEAN_CLEANUP_TOKEN: ${{ secrets.DIGITALOCEAN_CLEANUP_TOKEN }}
+        run: node scripts/camera-trial-cleanup.mjs
+  cleanup:
+    # A separate runner retries cleanup after watchdog failure or cancellation.
+    needs: watchdog
+    if: always()
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - name: Confirm the disposable app is gone
+        env:
+          DIGITALOCEAN_CLEANUP_TOKEN: ${{ secrets.DIGITALOCEAN_CLEANUP_TOKEN }}
+        run: node scripts/camera-trial-cleanup.mjs --now
