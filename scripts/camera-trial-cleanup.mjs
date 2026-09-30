@@ -41,9 +41,11 @@ async function locate() {
   const matches = [];
   for (let page = 1; page <= 20; page++) {
     const result = await api(`/apps?per_page=100&page=${page}`);
-    if (!result || !Array.isArray(result.apps)) throw new Error('Invalid app listing');
-    matches.push(...result.apps.filter(a => a.spec?.name === name));
-    if (result.apps.length < 100) break;
+    // DigitalOcean omits apps for an empty page, returning only pagination.
+    const apps = result?.apps ?? (result?.pagination?.page === page ? [] : null);
+    if (!Array.isArray(apps)) throw new Error('Invalid app listing');
+    matches.push(...apps.filter(a => a.spec?.name === name));
+    if (apps.length < 100) break;
     if (page === 20) throw new Error('App listing exceeded cleanup limit');
   }
   if (matches.length > 1) throw new Error('Ambiguous trial identity');
