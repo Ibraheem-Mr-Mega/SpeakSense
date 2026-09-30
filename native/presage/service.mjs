@@ -190,8 +190,9 @@ export function createPresageService({ apiKey, loadSdk, platform = process.platf
             } catch { s.state = "error"; s.error = "Presage returned unreadable measurements."; s.goodSince = null; }
           });
           try { sdk.useCustomInput(runtime.FrameTransform.kNone); sdk.start(); }
-          catch (e) { await stop(); return send(502, { error: errorText(e.code) }); }
-          if (s.state === "error") { const message = s.error; await stop(); return send(502, { error: message }); }
+          // Keep expected SDK failures as JSON; the hosting gateway replaces 502 bodies.
+          catch (e) { await stop(); return send(422, { error: errorText(e.code) }); }
+          if (s.state === "error") { const message = s.error; await stop(); return send(422, { error: message }); }
           send(201, { token: s.token, ...snapshot(s) });
         } finally { loading = false; }
         return;
