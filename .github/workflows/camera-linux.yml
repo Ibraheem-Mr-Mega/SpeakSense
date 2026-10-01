@@ -53,3 +53,8 @@ jobs:
             if (blocked.status !== 401 && blocked.status !== 403) throw new Error("Unauthenticated health access was not blocked");
             console.log("Container readiness and access protection passed.");
           '
+      - name: Diagnose native startup without credentials or network
+        run: |
+          docker run --rm --network none --cpus 1 --memory 2g \
+            -v "$PWD/native/presage/diagnose-startup.mjs:/app/native/presage/diagnose-startup.mjs:ro" \
+            speaksense-camera-check node diagnose-startup.mjs
