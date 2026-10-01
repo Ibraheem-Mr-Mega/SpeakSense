@@ -5,7 +5,7 @@ umask 077
 if [ "${1:-}" != "--keyring-session" ]; then
   # Each container generates its own identity; none is baked into the image.
   dbus-uuidgen --ensure=/home/node/.machine-id
-  exec dbus-run-session -- "$0" --keyring-session "$@"
+  exec dbus-run-session -- /bin/sh "$0" --keyring-session "$@"
 fi
 shift
 

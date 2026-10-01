@@ -16,5 +16,5 @@ COPY --chown=node:node --chmod=755 native/presage/entrypoint.sh ./
 USER node
 ENV CAMERA_HOSTED=true PORT=8789
 EXPOSE 8789
-ENTRYPOINT ["tini", "-g", "--", "/app/native/presage/entrypoint.sh"]
+ENTRYPOINT ["tini", "-g", "--", "/bin/sh", "/app/native/presage/entrypoint.sh"]
 CMD ["node", "server.mjs"]
