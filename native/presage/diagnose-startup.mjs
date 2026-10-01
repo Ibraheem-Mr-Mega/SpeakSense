@@ -15,7 +15,9 @@ await access(cache, constants.W_OK);
 console.log(JSON.stringify({ diagnostic: 'startup', platform: process.platform, arch: process.arch,
   node: process.version, sdk: sdkModule.SmartSpectraSDK.version, cacheWritable: true, metrics: [2, 13, 15] }));
 const sdk = new sdkModule.SmartSpectraSDK({ apiKey, requestedMetrics: [2, 13, 15],
-  enableTelemetry: false, enableAccumulatedOutput: false, logLevel: sdkModule.SmartSpectraLogLevel.kNone });
+  enableTelemetry: false, enableAccumulatedOutput: false,
+  // Native logs are enabled only for this isolated dummy-key diagnostic.
+  logLevel: apiKey === 'placeholder-not-a-real-key' ? sdkModule.SmartSpectraLogLevel.kInfo : sdkModule.SmartSpectraLogLevel.kNone });
 sdk.on('error', (code, message, retryable) => console.log(JSON.stringify({ event: 'sdk-error', code, message: scrub(message), retryable })));
 sdk.on('metrics', () => {});
 try {
