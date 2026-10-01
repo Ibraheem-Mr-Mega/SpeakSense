@@ -8,6 +8,7 @@
 !native/presage/pnpm-workspace.yaml
 !native/presage/server.mjs
 !native/presage/service.mjs
+!native/presage/entrypoint.sh
 !lib
 !lib/camera
 !lib/camera/metrics.ts
