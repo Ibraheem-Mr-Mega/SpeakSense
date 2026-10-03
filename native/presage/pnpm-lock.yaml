@@ -9,8 +9,8 @@ importers:
   .:
     dependencies:
       '@smartspectra/node-sdk':
-        specifier: 3.3.0
-        version: 3.3.0
+        specifier: 3.4.0
+        version: 3.4.0
       ws:
         specifier: 8.22.0
         version: 8.22.0
@@ -44,20 +44,20 @@ packages:
   '@protobufjs/utf8@1.1.2':
     resolution: {integrity: sha512-b1UQwcEZ4yCnMCD8DAL1VlbvBJE9/IX4FTIp7BG1xYpf29SLazLSrqUkj4w7Y5y7cCVP6E5tcqqcI0xemPkHug==}
 
-  '@smartspectra/node-sdk-darwin-arm64@3.3.0':
-    resolution: {integrity: sha512-GpBg8SHsL4we6KZKeIwcZuLqXR3AKmzrgk+L202IGFlOXvcjlahhTDeAjay5MUDGkCgjyWLE/+Yw0Et7IigWqQ==}
+  '@smartspectra/node-sdk-darwin-arm64@3.4.0':
+    resolution: {integrity: sha512-135zhq19064xWxCRKFZr6XQShK0YU/1ws5rdSDSnkDOEP/oON/7IpHSXcjKWmtcNYktdUkXiy3Y+Xrj6IIECvQ==}
 
-  '@smartspectra/node-sdk-linux-arm64@3.3.0':
-    resolution: {integrity: sha512-tqwlC3ym5x2VQNudD/tEZvcVJsAztRGrSY0mTNULFni0/vRgGqkq+QtCe4zQWge1TaJlnHmgdAn/6MQ0D12V7A==}
+  '@smartspectra/node-sdk-linux-arm64@3.4.0':
+    resolution: {integrity: sha512-lT/GXlJZ8iXVnJQ4DNgu++SfrgcaBo5eIRo5uCuXW/JZmnNeRBl9W87R6Ko1+9kjmTRe9yqDNnh7QJrflYLQUQ==}
 
-  '@smartspectra/node-sdk-linux-x64@3.3.0':
-    resolution: {integrity: sha512-fxtLsMvYRnhMD9WEqLJ36L6zp41a/eCv1Pjd8rbg76O3ToCFXZTHf9CT+Rpo4JAdTgIomFIv5xTlcdf6MGs58A==}
+  '@smartspectra/node-sdk-linux-x64@3.4.0':
+    resolution: {integrity: sha512-perhh902URHQh3OWDydHGUDsn0T0KPAKEDU3+DmNoI1+XT/Ij+TX7iUhc5AxEjH2DlslSMqp7DJzRVAGToL0fw==}
 
-  '@smartspectra/node-sdk-win32-x64@3.3.0':
-    resolution: {integrity: sha512-41S2M5kKH79fF/7pttUx38MFTMpcZYFMzbVpfuccdJBT4YUNH61lPilv6GYJfBn7BlQXwvx3pP5DHqkb4geclg==}
+  '@smartspectra/node-sdk-win32-x64@3.4.0':
+    resolution: {integrity: sha512-voqVGmEnnL0whzfh+zpTY7B3GChifeiRT976NpyuTLDMT7WBaszwfHBfeRKr4kQ16A9umdKAUPwhp6kLMJ4jWA==}
 
-  '@smartspectra/node-sdk@3.3.0':
-    resolution: {integrity: sha512-KBKkd4UCYlf84jgSzdsRJ9gXI2QPR7h2jL1XfUm+8OnH3xZZCg/PjuOo6EJEVh1ZpPC31pscuaIQVGidCLR2zg==}
+  '@smartspectra/node-sdk@3.4.0':
+    resolution: {integrity: sha512-gl4Nav+MHmzJQQju/uE+zMmwobr08SI9gOHBxPn7HJDAA4SgW7NCb2L5t1vFDdZc2varVCWGLEkP930jpHhD0g==}
     engines: {node: '>=20.0.0'}
 
   '@types/node@26.6.3':
@@ -110,20 +110,20 @@ snapshots:
 
   '@protobufjs/utf8@1.1.2': {}
 
-  '@smartspectra/node-sdk-darwin-arm64@3.3.0': {}
+  '@smartspectra/node-sdk-darwin-arm64@3.4.0': {}
 
-  '@smartspectra/node-sdk-linux-arm64@3.3.0': {}
+  '@smartspectra/node-sdk-linux-arm64@3.4.0': {}
 
-  '@smartspectra/node-sdk-linux-x64@3.3.0': {}
+  '@smartspectra/node-sdk-linux-x64@3.4.0': {}
 
-  '@smartspectra/node-sdk-win32-x64@3.3.0': {}
+  '@smartspectra/node-sdk-win32-x64@3.4.0': {}
 
-  '@smartspectra/node-sdk@3.3.0':
+  '@smartspectra/node-sdk@3.4.0':
     dependencies:
-      '@smartspectra/node-sdk-darwin-arm64': 3.3.0
-      '@smartspectra/node-sdk-linux-arm64': 3.3.0
-      '@smartspectra/node-sdk-linux-x64': 3.3.0
-      '@smartspectra/node-sdk-win32-x64': 3.3.0
+      '@smartspectra/node-sdk-darwin-arm64': 3.4.0
+      '@smartspectra/node-sdk-linux-arm64': 3.4.0
+      '@smartspectra/node-sdk-linux-x64': 3.4.0
+      '@smartspectra/node-sdk-win32-x64': 3.4.0
       koffi: 2.16.3
       protobufjs: 7.6.6
 
