@@ -42,6 +42,13 @@ function equal(a, b) {
 
 export function createPresageService({ apiKey, loadSdk, platform = process.platform, arch = process.arch, now = mono, origins = ["http://localhost:5173", "http://127.0.0.1:5173"], accessKey = "", hosted = false, maxSessionsPerHour = 20 }) {
   let current = null, closing = null, loading = false;
+  function reportFailure(code, detail) {
+    // Diagnostic errors only: never log frames, measurements, credentials, or URLs.
+    let safe = String(detail ?? "");
+    for (const secret of [apiKey, accessKey, current?.token]) if (secret) safe = safe.split(secret).join("[redacted]");
+    safe = safe.replace(/Bearer\s+\S+/gi, "Bearer [redacted]").replace(/https?:\/\/\S+/g, "[url redacted]").slice(0, 1000);
+    console.warn(JSON.stringify({ event: "camera-processing-error", code: Number.isFinite(code) ? code : null, detail: safe }));
+  }
   let starts = [];
   if (hosted && (accessKey.length < 32 || origins.length === 0)) throw new Error("Hosted camera service requires a private access code and allowed origins.");
   const supported = supportedPresageHost(platform, arch);
@@ -141,6 +148,7 @@ export function createPresageService({ apiKey, loadSdk, platform = process.platf
             }
             if (result.state === "error") void stop();
           } catch (error) {
+            reportFailure(error.code, error.message);
             ws.send(JSON.stringify({ error: streamErrorText(error) }));
             void stop();
           }
@@ -185,7 +193,7 @@ export function createPresageService({ apiKey, loadSdk, platform = process.platf
           current = s;
           sdk.on("processingStatus", code => { if (current === s) s.state = ({ 0: "starting", 1: "idle", 2: "starting", 3: "running", 4: "stopping", 5: "error" })[code] ?? "error"; });
           sdk.on("validationStatus", code => { if (current === s) { s.validation = code; if (code !== 0) s.goodSince = null; } });
-          sdk.on("error", code => { if (current === s) { s.state = "error"; s.error = errorText(code); s.goodSince = null; } });
+          sdk.on("error", (code, detail) => { if (current === s) { reportFailure(code, detail); s.state = "error"; s.error = errorText(code); s.goodSince = null; } });
           sdk.on("metrics", bytes => {
             if (current !== s) return;
             try {
