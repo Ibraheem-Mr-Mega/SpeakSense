@@ -99,7 +99,7 @@ test("lossless hosted frames retain bytes and capture timing; HTTP fallback is r
 test("nonmonotonic timestamps stop the hosted native session", { timeout: 5000 }, async t => {
   const h = await harness(t); const { token } = await (await h.start()).json(); const ws = await h.socket(token);
   h.advance(0.21); await reply(ws, packet(0.1));
-  h.advance(0.5); assert.match((await reply(ws, packet(0.1))).error, /stream/);
+  h.advance(0.5); assert.match((await reply(ws, packet(0.1))).error, /timestamps/);
   await settled(() => h.instance().destroyed); assert.equal(h.instance().frames.length, 1);
 });
 test("stale hosted frames and invalid sizes stop before SDK submission", { timeout: 5000 }, async t => {

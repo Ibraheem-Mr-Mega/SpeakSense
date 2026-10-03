@@ -3,7 +3,18 @@ import { randomUUID, timingSafeEqual } from "node:crypto";
 import { gateReading, VALIDATION_HINTS, supportedPresageHost } from "../../lib/camera/metrics.ts";
 
 const mono = () => Number(process.hrtime.bigint()) / 1e9;
-const errorText = code => ({ 2: "Presage did not accept the API key.", 3: "Presage could not configure the requested measurements.", 4: "Presage credits are exhausted.", 5: "Presage could not connect. Check your connection.", 6: "Presage is temporarily unavailable." }[code] ?? "Presage processing stopped. Stop the camera and try again.");
+const errorText = code => ({ 1: "Presage was not ready to accept camera frames. Wait briefly and retry.", 7: "Presage camera input is unavailable.", 8: "Presage could not process the camera frames.", 9: "Presage could not convert the camera pixel format.", 10: "Presage rejected out-of-order frame timestamps.", 11: "Presage detected a gap in camera frame timestamps.", 2: "Presage did not accept the API key.", 3: "Presage could not configure the requested measurements.", 4: "Presage credits are exhausted.", 5: "Presage could not connect. Check your connection.", 6: "Presage is temporarily unavailable." }[code] ?? "Presage processing stopped. Stop the camera and try again.");
+const streamErrorText = error => {
+  if (typeof error?.code === "number") return errorText(error.code);
+  return ({
+    "Camera stream delayed": "Camera frames arrived too late. Pause uploads or try a faster connection.",
+    "Camera frame rate exceeded": "Camera frame timing was inconsistent. Restart the preview and try again.",
+    "Invalid capture time": "Camera timestamps were invalid. Restart the preview and try again.",
+    "Invalid frame": "The camera sent an unsupported frame format.",
+    "Invalid frame size": "The camera sent an unsupported frame size.",
+    "Slow connection": "The camera service could not send results fast enough. Try a faster connection.",
+  })[error?.message] ?? "Presage could not process a camera frame. This is a processing error, not a confirmed connection problem.";
+};
 const validSize = (w, h) => Number.isInteger(w) && Number.isInteger(h) && w >= 320 && h >= 240 && w <= 1280 && h <= 720;
 async function body(req, max) {
   if (Number(req.headers["content-length"]) > max) {
@@ -129,8 +140,8 @@ export function createPresageService({ apiKey, loadSdk, platform = process.platf
               ws.send(JSON.stringify(result)); s.lastReply = now();
             }
             if (result.state === "error") void stop();
-          } catch {
-            ws.send(JSON.stringify({ error: "Camera stream could not keep up. Improve your connection and try again." }));
+          } catch (error) {
+            ws.send(JSON.stringify({ error: streamErrorText(error) }));
             void stop();
           }
         });
@@ -224,7 +235,13 @@ export function createPresageService({ apiKey, loadSdk, platform = process.platf
   server.requestTimeout = 10000;
   server.headersTimeout = 10000;
   const watchdog = setInterval(() => {
-    if (current && (now() - current.lastFrame > 3 || now() - current.started >= 46 || current.state === "error")) void stop();
+    if (current && (now() - current.lastFrame > 3 || now() - current.started >= 46 || current.state === "error")) {
+      const s = current;
+      if (s.socket?.readyState === 1) s.socket.send(JSON.stringify(now() - s.started >= 46
+        ? { finished: true }
+        : { error: s.error || "The camera service did not receive usable frames for three seconds. Restart the preview and try again." }));
+      void stop();
+    }
   }, 500);
   watchdog.unref();
   return { server, health, attachStreaming, async close() { clearInterval(watchdog); await stop(); server.closeAllConnections(); await new Promise(resolve => server.close(resolve)); } };
